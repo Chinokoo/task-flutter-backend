@@ -85,7 +85,7 @@ export const tokenIsValid = async (req, res) => {
         .status(401)
         .json({ message: "User not found", success: false });
 
-    res.status(200).json({ message: "Token is valid", success: true });
+    res.status(200).json({ message: "Token is valid", success: true, user });
   } catch (e) {
     console.log(e);
     res.status(500).json({ message: e.message });
