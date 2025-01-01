@@ -2,7 +2,7 @@ import Task from "../models/task.model.js";
 
 export const getTasks = async (req, res) => {
   try {
-    const tasks = await Task.find({ owner: req.user });
+    const tasks = await Task.find({ owner: req.user }).sort({ createdAt: -1 });
 
     if (!tasks) return res.status(404).json({ message: "Tasks not found!" });
 
@@ -37,5 +37,17 @@ export const createTask = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: error.message });
     console.log("error when creating a task", error);
+  }
+};
+
+export const deleteTask = async (req, res) => {
+  try {
+    const task = await Task.findByIdAndDelete(req.params.id);
+
+    if (!task) return res.status(404).json({ message: "Task not found!" });
+
+    res.status(200).json({ message: "Task deleted successfully" });
+  } catch (e) {
+    console.log("error in deleteTask", e);
   }
 };
